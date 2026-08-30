@@ -65,14 +65,14 @@ class DatasetService:
 
         return mappings
 
-    def normalize_labels(self, series: pd.Series) -> pd.Series:
+    def normalize_labels(self, series: Any) -> Any:
         """
         Normalize various label representations to binary integers:
         0 = REAL / TRUE / CREDIBLE
         1 = FAKE / FALSE / UNRELIABLE
         """
         def _map_val(v):
-            if pd.isna(v):
+            if pd is not None and pd.isna(v):
                 return 0
             if isinstance(v, (int, float)):
                 return int(v)
@@ -81,9 +81,9 @@ class DatasetService:
                 return 1
             return 0
 
-        return series.apply(_map_val)
+        return series.apply(_map_val) if hasattr(series, "apply") else series
 
-    def load_dataset_file(self, file_path: Path) -> Tuple[pd.DataFrame, Dict[str, str]]:
+    def load_dataset_file(self, file_path: Path) -> Tuple[Any, Dict[str, str]]:
         """Load and validate dataset file from disk."""
         if not file_path.exists():
             raise VeritasException(f"Dataset file not found: {file_path}", status_code=404)
@@ -112,7 +112,7 @@ class DatasetService:
 
     def create_leakage_free_split(
         self,
-        df: pd.DataFrame,
+        df: Any,
         mappings: Dict[str, str],
         train_ratio: float = 0.70,
         val_ratio: float = 0.15,
