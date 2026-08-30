@@ -3,7 +3,13 @@ import hashlib
 from pathlib import Path
 from typing import Dict, Any, Optional, Tuple, List, Union
 import numpy as np
-from PIL import Image, ImageStat
+try:
+    from PIL import Image, ImageStat
+    HAS_PIL = True
+except ImportError:
+    Image = None
+    ImageStat = None
+    HAS_PIL = False
 from backend.app.core.logging_config import logger
 
 
