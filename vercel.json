@@ -3,14 +3,7 @@
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.py": {
-      "excludeFiles": [
-        "data/**",
-        "tests/**",
-        "notebooks/**",
-        "docs/**",
-        "scratch/**",
-        "frontend/**"
-      ]
+      "excludeFiles": "!(api/**|backend/**|pyproject.toml|requirements.txt)"
     }
   },
   "rewrites": [

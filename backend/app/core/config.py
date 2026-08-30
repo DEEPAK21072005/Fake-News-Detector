@@ -4,16 +4,26 @@ from typing import List, Optional
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
+IS_VERCEL = bool(os.getenv("VERCEL")) or bool(os.getenv("NOW_REGION"))
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
-DATA_DIR = BASE_DIR / "data"
-MODELS_DIR = BASE_DIR / "models"
+
+if IS_VERCEL:
+    DATA_DIR = Path("/tmp/data")
+    MODELS_DIR = Path("/tmp/models")
+else:
+    DATA_DIR = BASE_DIR / "data"
+    MODELS_DIR = BASE_DIR / "models"
+
 CHECKPOINTS_DIR = MODELS_DIR / "checkpoints"
 EVIDENCE_DIR = DATA_DIR / "evidence"
 UPLOADS_DIR = DATA_DIR / "uploads"
 
-# Ensure directories exist
+# Ensure directories exist safely
 for directory in [DATA_DIR, MODELS_DIR, CHECKPOINTS_DIR, EVIDENCE_DIR, UPLOADS_DIR]:
-    directory.mkdir(parents=True, exist_ok=True)
+    try:
+        directory.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        pass
 
 
 class Settings(BaseSettings):
