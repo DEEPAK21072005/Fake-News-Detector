@@ -2,8 +2,14 @@ import os
 import numpy as np
 from abc import ABC, abstractmethod
 from typing import List, Union, Optional
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.decomposition import TruncatedSVD
+    HAS_SKLEARN = True
+except ImportError:
+    HAS_SKLEARN = False
+    TfidfVectorizer = None
+    TruncatedSVD = None
 from backend.app.core.config import settings
 from backend.app.core.resource_manager import resource_manager
 from backend.app.core.logging_config import logger
@@ -82,15 +88,16 @@ class SentenceTransformerEmbeddingProvider(BaseEmbeddingProvider):
 
 class CompactTFIDFEmbeddingProvider(BaseEmbeddingProvider):
     """
-    Ultra-lightweight, zero-download TF-IDF + SVD semantic projection provider.
-    Guaranteed to run anywhere on CPU without any model downloads.
+    Ultra-lightweight, zero-download TF-IDF / Feature Hashing semantic projection provider.
+    Guaranteed to run anywhere on CPU without any model downloads or heavy dependencies.
     """
     def __init__(self, n_components: int = 384):
         self._dim = n_components
-        self.vectorizer = TfidfVectorizer(max_features=5000, stop_words="english")
-        self.svd = TruncatedSVD(n_components=min(n_components, 100), random_state=42)
+        self.vectorizer = TfidfVectorizer(max_features=5000, stop_words="english") if HAS_SKLEARN else None
+        self.svd = TruncatedSVD(n_components=min(n_components, 100), random_state=42) if HAS_SKLEARN else None
         self._is_fitted = False
-        self._init_vocabulary()
+        if HAS_SKLEARN:
+            self._init_vocabulary()
 
     def _init_vocabulary(self):
         starter_corpus = [
@@ -104,7 +111,6 @@ class CompactTFIDFEmbeddingProvider(BaseEmbeddingProvider):
             "climate environment weather crisis global warming temperature storm energy disaster"
         ] * 10
         X_tfidf = self.vectorizer.fit_transform(starter_corpus)
-        # SVD fit
         n_comp = min(self._dim, X_tfidf.shape[1] - 1)
         self.svd = TruncatedSVD(n_components=n_comp, random_state=42)
         self.svd.fit(X_tfidf)
@@ -113,14 +119,21 @@ class CompactTFIDFEmbeddingProvider(BaseEmbeddingProvider):
     def embed_text(self, text: str) -> np.ndarray:
         if not text.strip():
             return np.zeros(self._dim, dtype=np.float32)
-        tfidf_vec = self.vectorizer.transform([text])
-        dense_proj = self.svd.transform(tfidf_vec)[0]
-        
-        # Pad to target dimension if needed
-        if len(dense_proj) < self._dim:
-            padded = np.zeros(self._dim, dtype=np.float32)
-            padded[:len(dense_proj)] = dense_proj
-            dense_proj = padded
+        if HAS_SKLEARN and self.vectorizer and self.svd:
+            tfidf_vec = self.vectorizer.transform([text])
+            dense_proj = self.svd.transform(tfidf_vec)[0]
+            if len(dense_proj) < self._dim:
+                padded = np.zeros(self._dim, dtype=np.float32)
+                padded[:len(dense_proj)] = dense_proj
+                dense_proj = padded
+        else:
+            # Fast numpy feature hashing fallback
+            import re
+            words = re.findall(r"\w+", text.lower())
+            dense_proj = np.zeros(self._dim, dtype=np.float32)
+            for word in words:
+                idx = abs(hash(word)) % self._dim
+                dense_proj[idx] += 1.0
 
         norm = np.linalg.norm(dense_proj)
         if norm > 1e-6:

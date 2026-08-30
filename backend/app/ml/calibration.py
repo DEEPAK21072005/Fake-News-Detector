@@ -1,7 +1,13 @@
 import numpy as np
 from typing import Dict, Any, Tuple, List, Optional
-from sklearn.linear_model import LogisticRegression
-from sklearn.isotonic import IsotonicRegression
+try:
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.isotonic import IsotonicRegression
+    HAS_SKLEARN = True
+except ImportError:
+    HAS_SKLEARN = False
+    LogisticRegression = None
+    IsotonicRegression = None
 
 
 class ConfidenceCalibrator:

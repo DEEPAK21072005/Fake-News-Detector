@@ -3,8 +3,14 @@ import joblib
 import numpy as np
 from pathlib import Path
 from typing import Dict, Any, List, Optional, Tuple
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier
+try:
+    from sklearn.linear_model import LogisticRegression
+    from sklearn.ensemble import GradientBoostingClassifier
+    HAS_SKLEARN = True
+except ImportError:
+    HAS_SKLEARN = False
+    LogisticRegression = None
+    GradientBoostingClassifier = None
 from backend.app.core.logging_config import logger
 from backend.app.ml.calibration import ConfidenceCalibrator
 

@@ -3,10 +3,19 @@ import joblib
 import numpy as np
 from pathlib import Path
 from typing import Dict, Any, List, Tuple, Optional
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier
-from sklearn.svm import LinearSVC
-from sklearn.calibration import CalibratedClassifierCV
+try:
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.linear_model import LogisticRegression, PassiveAggressiveClassifier
+    from sklearn.svm import LinearSVC
+    from sklearn.calibration import CalibratedClassifierCV
+    HAS_SKLEARN = True
+except ImportError:
+    HAS_SKLEARN = False
+    TfidfVectorizer = None
+    LogisticRegression = None
+    PassiveAggressiveClassifier = None
+    LinearSVC = None
+    CalibratedClassifierCV = None
 from backend.app.core.logging_config import logger
 
 

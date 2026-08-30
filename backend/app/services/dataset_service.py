@@ -2,9 +2,16 @@ import json
 import hashlib
 from pathlib import Path
 from typing import Dict, Any, List, Tuple, Optional
-import pandas as pd
-import numpy as np
-from sklearn.model_selection import train_test_split, GroupShuffleSplit
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
+
+try:
+    from sklearn.model_selection import train_test_split, GroupShuffleSplit
+except ImportError:
+    train_test_split = None
+    GroupShuffleSplit = None
 from backend.app.core.config import settings
 from backend.app.core.logging_config import logger
 from backend.app.core.error_handlers import VeritasException
