@@ -1,0 +1,26 @@
+[
+  {
+    "id": "demo_real_1",
+    "title": "Kurds offer joint border deployment as Iraq threatens offensive",
+    "expected_verdict": "LIKELY_REAL",
+    "category": "World",
+    "description": "Standard objective geopolitical reporting with balanced neutral language from the ISOT dataset.",
+    "text": "BAGHDAD (Reuters) - Kurdish authorities offered on Tuesday a joint border deployment with Iraqi federal forces at the Fish-Khabur crossing point with Turkey, as Baghdad threatened to resume military operations. The proposal was presented during military talks between Iraqi government commanders and the Peshmerga in the northern city of Mosul. Iraqi Prime Minister Haider al-Abadi ordered a truce on Friday to allow talks with the Kurds on the deployment of federal forces to all disputed areas."
+  },
+  {
+    "id": "demo_fake_1",
+    "title": "SHOCKING SECRET: Scientists Discover Coffee Miracle Cures ALL Cancers They Don't Want You To Know!",
+    "expected_verdict": "LIKELY_FAKE",
+    "category": "Health",
+    "description": "Sensationalist clickbait article with emotional trigger words and miraculous medical assertions contradicted by medical evidence.",
+    "text": "BOMBSHELL REVELATION! Deep state medical insiders have been caught hiding the mind-blowing truth from the public! Top secret laboratory experiments have 100% PROVEN that drinking three cups of coffee every morning completely destroys every cancer cell in the human body instantly! The corrupt pharmaceutical industry and mainstream media are desperately trying to ban this unbelievable secret to protect their trillions in profits! SHARE THIS URGENT WARNING BEFORE THEY DELETE IT FOREVER!"
+  },
+  {
+    "id": "demo_uncertain_1",
+    "title": "Speculative unconfirmed rumors circulate regarding confidential diplomatic dialogue",
+    "expected_verdict": "UNCERTAIN",
+    "category": "Politics",
+    "description": "Ambiguous, speculative article with anonymous claims and insufficient corroborating evidence in the database.",
+    "text": "Anonymous social media accounts and speculative foreign policy blogs are claiming that high-level confidential talks between unnamed foreign emissaries may have taken place in an undisclosed European capital last weekend. Officials from both ministries declined to comment on the unconfirmed rumors, stating that routine diplomatic communications remain ongoing through established regular channels."
+  }
+]

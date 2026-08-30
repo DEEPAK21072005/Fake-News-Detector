@@ -1,0 +1,122 @@
+[
+  {
+    "id": 1,
+    "title": "Clinical trials confirm regular coffee consumption does not prevent all types of cancer",
+    "text": "Medical researchers and oncology societies note that while moderate coffee consumption has certain antioxidant properties and may be associated with reduced risk for specific liver diseases, it does not cure or completely prevent cancer. Claims suggesting coffee is a universal cancer cure are unsubstantiated by clinical evidence.",
+    "source": "Nature Medicine / Healthline",
+    "url": "https://www.nature.com/articles/oncology-coffee-study",
+    "publication_date": "2024-03-15",
+    "domain": "nature.com",
+    "credibility_score": 0.98,
+    "category": "Health",
+    "stance_tag": "Contradicting"
+  },
+  {
+    "id": 2,
+    "title": "World Health Organization publishes verified global vaccine safety monitoring report",
+    "text": "The World Health Organization confirmed that rigorous epidemiological surveillance across over 180 countries demonstrates authorized vaccines meet safety benchmarks and significantly reduce severe illness and hospitalization.",
+    "source": "World Health Organization",
+    "url": "https://www.who.int/news/vaccine-safety-report",
+    "publication_date": "2024-01-10",
+    "domain": "who.int",
+    "credibility_score": 0.99,
+    "category": "Health",
+    "stance_tag": "Supporting"
+  },
+  {
+    "id": 3,
+    "title": "Fact Check: Fabricated viral claim regarding 5G cellular radiation causing virus infections debunked",
+    "text": "Telecommunications regulatory agencies and independent electromagnetic safety laboratories confirmed that non-ionizing radiofrequency radiation from 5G towers cannot create or transmit biological viruses. The claim has been repeatedly debunked as a pseudoscientific hoax.",
+    "source": "Reuters Fact Check",
+    "url": "https://www.reuters.com/fact-check/5g-virus-hoax-debunked",
+    "publication_date": "2023-11-20",
+    "domain": "reuters.com",
+    "credibility_score": 0.96,
+    "category": "Science",
+    "stance_tag": "Contradicting"
+  },
+  {
+    "id": 4,
+    "title": "US Senate passes bipartisan infrastructure funding bill following negotiations",
+    "text": "Lawmakers in Washington enacted comprehensive legislation allocating capital investments toward interstate highway maintenance, municipal water safety upgrades, and broadband expansion across rural districts.",
+    "source": "Associated Press",
+    "url": "https://apnews.com/article/senate-infrastructure-bipartisan-vote",
+    "publication_date": "2023-08-12",
+    "domain": "apnews.com",
+    "credibility_score": 0.97,
+    "category": "Politics",
+    "stance_tag": "Supporting"
+  },
+  {
+    "id": 5,
+    "title": "Debunked: Viral social media post alleging voting machines automatically switched candidate selections",
+    "text": "State election auditing commissions and independent cybersecurity oversight bodies conducted paper-ballot hand recounts confirming electronic tabulators accurately tallied recorded votes with zero evidence of automated software switching.",
+    "source": "PolitiFact",
+    "url": "https://www.politifact.com/factchecks/voting-machines-switch-hoax",
+    "publication_date": "2024-02-28",
+    "domain": "politifact.com",
+    "credibility_score": 0.95,
+    "category": "Politics",
+    "stance_tag": "Contradicting"
+  },
+  {
+    "id": 6,
+    "title": "NASA and NOAA confirm global ocean surface temperatures reached record anomalies",
+    "text": "Satellite observation systems and marine buoy networks recorded unprecedented sea-surface heat index values, driven by combination of persistent atmospheric greenhouse concentrations and El Nino oceanic oscillations.",
+    "source": "NASA Earth Observatory",
+    "url": "https://earthobservatory.nasa.gov/ocean-temperature-records",
+    "publication_date": "2024-04-05",
+    "domain": "nasa.gov",
+    "credibility_score": 0.99,
+    "category": "Science",
+    "stance_tag": "Supporting"
+  },
+  {
+    "id": 7,
+    "title": "Federal Reserve maintains benchmark interest rate target amid inflation metrics",
+    "text": "The Federal Open Market Committee announced it would hold key borrowing rates steady while continuing to evaluate macroeconomic indicators, labor market resiliency, and consumer price index trends.",
+    "source": "Reuters",
+    "url": "https://www.reuters.com/business/fed-rate-decision-inflation-analysis",
+    "publication_date": "2024-05-01",
+    "domain": "reuters.com",
+    "credibility_score": 0.96,
+    "category": "Economy",
+    "stance_tag": "Supporting"
+  },
+  {
+    "id": 8,
+    "title": "False claim alleging secret government weather modification lasers started forest fires",
+    "text": "Forestry investigation officials and satellite infrared data confirmed wildfires were triggered by lightning strikes following prolonged drought conditions. Claims attributing natural forest fires to orbital laser weapons have no technical or physical basis.",
+    "source": "BBC Verify",
+    "url": "https://www.bbc.com/news/wildfire-conspiracy-laser-debunked",
+    "publication_date": "2023-09-14",
+    "domain": "bbc.com",
+    "credibility_score": 0.95,
+    "category": "Science",
+    "stance_tag": "Contradicting"
+  },
+  {
+    "id": 9,
+    "title": "Kurds offer joint border deployment as Iraq forces advance on strategic crossings",
+    "text": "Kurdish regional authorities proposed a joint military deployment with Iraqi federal forces at the strategic border crossings with Turkey and Syria to de-escalate tensions following territorial disputes.",
+    "source": "Reuters World News",
+    "url": "https://www.reuters.com/world/middle-east/kurds-offer-joint-border-deployment",
+    "publication_date": "2017-10-29",
+    "domain": "reuters.com",
+    "credibility_score": 0.96,
+    "category": "World",
+    "stance_tag": "Supporting"
+  },
+  {
+    "id": 10,
+    "title": "Authorities arrest multiple individuals for burglary and looting following hurricane evacuation",
+    "text": "Police departments in southern coastal districts confirmed over 50 arrests related to commercial burglary incidents during mandatory evacuation curfew periods following major storm landfall.",
+    "source": "Associated Press",
+    "url": "https://apnews.com/article/hurricane-looting-arrests-police",
+    "publication_date": "2017-09-11",
+    "domain": "apnews.com",
+    "credibility_score": 0.96,
+    "category": "General",
+    "stance_tag": "Supporting"
+  }
+]
