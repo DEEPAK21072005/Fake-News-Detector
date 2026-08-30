@@ -3,7 +3,14 @@
   "outputDirectory": "frontend/dist",
   "functions": {
     "api/index.py": {
-      "excludeFiles": "{data/**,tests/**,notebooks/**,docs/**,scratch/**,frontend/src/**,frontend/public/**}"
+      "excludeFiles": [
+        "data/**",
+        "tests/**",
+        "notebooks/**",
+        "docs/**",
+        "scratch/**",
+        "frontend/**"
+      ]
     }
   },
   "rewrites": [
