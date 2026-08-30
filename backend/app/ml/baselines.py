@@ -54,8 +54,8 @@ class TFIDFLogisticRegressionClassifier(BaseClassifier):
             ngram_range=(1, 2),
             stop_words="english",
             sublinear_tf=True
-        )
-        self.model = LogisticRegression(C=C, max_iter=500, solver="lbfgs", random_state=42)
+        ) if HAS_SKLEARN else None
+        self.model = LogisticRegression(C=C, max_iter=500, solver="lbfgs", random_state=42) if HAS_SKLEARN else None
         self.is_fitted = False
 
     def train(self, texts: List[str], labels: List[int], **kwargs) -> Dict[str, Any]:
@@ -125,8 +125,8 @@ class TFIDFLinearSVMClassifier(BaseClassifier):
             ngram_range=(1, 2),
             stop_words="english",
             sublinear_tf=True
-        )
-        self.svm = LinearSVC(C=C, max_iter=1000, random_state=42)
+        ) if HAS_SKLEARN else None
+        self.svm = LinearSVC(C=C, max_iter=1000, random_state=42) if HAS_SKLEARN else None
         self.calibrated_model: Optional[CalibratedClassifierCV] = None
         self.is_fitted = False
 
@@ -195,8 +195,8 @@ class PassiveAggressiveBaselineClassifier(BaseClassifier):
     def __init__(self, max_features: int = 10000, max_iter: int = 100):
         self.max_features = max_features
         self.max_iter = max_iter
-        self.vectorizer = TfidfVectorizer(max_features=max_features, stop_words="english")
-        self.pac = PassiveAggressiveClassifier(max_iter=max_iter, random_state=42)
+        self.vectorizer = TfidfVectorizer(max_features=max_features, stop_words="english") if HAS_SKLEARN else None
+        self.pac = PassiveAggressiveClassifier(max_iter=max_iter, random_state=42) if HAS_SKLEARN else None
         self.calibrated_model: Optional[CalibratedClassifierCV] = None
         self.is_fitted = False
 
