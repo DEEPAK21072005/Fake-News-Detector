@@ -63,6 +63,11 @@ export const api = {
     return res.json();
   },
 
+  clearHistory: async (): Promise<void> => {
+    const res = await fetch(`${API_BASE}/analyze/history`, { method: 'DELETE' });
+    if (!res.ok) throw new Error('Failed to clear history');
+  },
+
   // System & Telemetry
   getSystemStatus: async (): Promise<SystemStatus> => {
     const res = await fetch(`${API_BASE}/system/status`);
