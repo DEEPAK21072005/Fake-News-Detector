@@ -69,9 +69,9 @@ class Settings(BaseSettings):
     VISION_MODEL_NAME: str = "mobilenet_v3_small"
     
     # Optional Cloud LLM (Gemini / OpenAI / Null fallback)
-    LLM_PROVIDER: str = "null"  # null | gemini | openai | local
-    GEMINI_API_KEY: Optional[str] = None
-    OPENAI_API_KEY: Optional[str] = None
+    LLM_PROVIDER: str = "gemini" if os.getenv("GEMINI_API_KEY") else "null"  # null | gemini | openai | local
+    GEMINI_API_KEY: Optional[str] = os.getenv("GEMINI_API_KEY")
+    OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY")
     OPENAI_BASE_URL: str = "https://api.openai.com/v1"
     
     # Security

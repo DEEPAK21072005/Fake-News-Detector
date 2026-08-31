@@ -20,7 +20,7 @@ from backend.app.ml.model_registry import model_registry
 from backend.app.retrieval.evidence_engine import evidence_engine
 from backend.app.retrieval.narrative_engine import narrative_engine
 from backend.app.explainability.explainer import prediction_explainer
-from backend.app.explainability.llm_explainer import get_llm_provider
+from backend.app.explainability.llm_explainer import get_llm_provider, GeminiLLMProvider
 from backend.app.schemas.analysis_schema import (
     AnalysisResponse,
     ClaimItem,
@@ -95,6 +95,9 @@ class VerificationPipelineService:
         narrative_results = narrative_engine.analyze_narrative_consistency(primary_claim_text)
         narrative_data = NarrativeConsistencyData(**narrative_results)
 
+        # Refresh LLM provider (in case env key loaded or set)
+        llm = get_llm_provider()
+
         # Stage 7: Multimodal Fusion & Confidence Calibration
         active_model = model_registry.get_active_model()
         if hasattr(active_model, "predict_multimodal"):
@@ -120,6 +123,29 @@ class VerificationPipelineService:
                 "key_reasons": ["Classification derived from statistical text baseline."],
             }
 
+        # Real-time Gemini Factuality Verification Fusion
+        gemini_assessment = None
+        if isinstance(llm, GeminiLLMProvider):
+            try:
+                gemini_assessment = await llm.verify_claim_factuality(
+                    claim=primary_claim_text,
+                    title=clean_title
+                )
+                if gemini_assessment:
+                    g_verdict = gemini_assessment["verdict"]
+                    g_conf = gemini_assessment["confidence"]
+                    # If Gemini has a confident assessment, harmonize with local fusion
+                    if g_verdict in ("LIKELY_REAL", "LIKELY_FAKE"):
+                        fusion_results["verdict"] = g_verdict
+                        fusion_results["calibrated_confidence"] = round(g_conf, 2)
+                        fusion_results["confidence"] = round(g_conf, 2)
+                        fusion_results["evidence_strength"] = "Strong"
+                        fusion_results["reliability"] = "High"
+                        if gemini_assessment.get("key_signals"):
+                            fusion_results["key_reasons"] = gemini_assessment["key_signals"] + fusion_results["key_reasons"]
+            except Exception as e:
+                logger.warning(f"Gemini factual verification skipped: {e}")
+
         # Stage 8: Explainability & LLM Synthesis
         token_attributions = prediction_explainer.explain_text_signals(clean_body, linguistic_signals, top_k=12)
         limitations = prediction_explainer.generate_limitations(
@@ -129,9 +155,16 @@ class VerificationPipelineService:
         )
 
         llm_synthesis = None
-        if inference_mode in ("RESEARCH", "CLOUD_ENHANCED") or settings.LLM_PROVIDER != "null":
-            try:
-                llm_synthesis = await self.llm_provider.synthesize_explanation(
+        try:
+            if gemini_assessment and gemini_assessment.get("explanation"):
+                llm_synthesis = {
+                    "provider": "Google Gemini (Real-time AI Verification)",
+                    "summary": gemini_assessment["explanation"],
+                    "claim_analysis": f"Claim: {primary_claim_text[:200]}",
+                    "evidence_synthesis": f"{len(evidence_results.get('contradicting_evidence', []))} contradicting, {len(evidence_results.get('supporting_evidence', []))} supporting sources retrieved."
+                }
+            elif isinstance(llm, GeminiLLMProvider) or inference_mode in ("RESEARCH", "CLOUD_ENHANCED") or settings.LLM_PROVIDER != "null":
+                llm_synthesis = await llm.synthesize_explanation(
                     claim=primary_claim_text,
                     verdict=fusion_results["verdict"],
                     confidence=fusion_results["calibrated_confidence"],
@@ -139,8 +172,8 @@ class VerificationPipelineService:
                     supporting_evidence=evidence_results.get("supporting_evidence", []),
                     contradicting_evidence=evidence_results.get("contradicting_evidence", [])
                 )
-            except Exception as e:
-                logger.warning(f"LLM explanation synthesis skipped: {e}")
+        except Exception as e:
+            logger.warning(f"LLM explanation synthesis skipped: {e}")
 
         latency_ms = round((time.time() - start_time) * 1000, 2)
         logger.info(f"Verification finished in {latency_ms} ms. Verdict: {fusion_results['verdict']} ({int(fusion_results['calibrated_confidence']*100)}%)")
