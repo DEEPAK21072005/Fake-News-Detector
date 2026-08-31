@@ -2,7 +2,7 @@ import re
 import random
 from typing import List, Dict, Any
 import numpy as np
-from sklearn.metrics import f1_score, accuracy_score
+from backend.app.evaluation.metrics import f1_score, accuracy_score
 from backend.app.ml.baselines import BaseClassifier
 
 

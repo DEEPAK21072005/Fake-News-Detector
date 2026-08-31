@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 import numpy as np
-from sklearn.metrics import f1_score, accuracy_score
+from backend.app.evaluation.metrics import f1_score, accuracy_score
 from backend.app.ml.baselines import TFIDFLogisticRegressionClassifier
 from backend.app.core.logging_config import logger
 

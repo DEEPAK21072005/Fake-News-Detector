@@ -1,6 +1,6 @@
 import numpy as np
 from typing import List, Dict, Any
-from sklearn.metrics import f1_score, accuracy_score, precision_score, recall_score
+from backend.app.evaluation.metrics import f1_score, accuracy_score, precision_score, recall_score
 from backend.app.ml.preprocessing import extract_linguistic_signals
 from backend.app.ml.embeddings import get_embedding_provider
 from backend.app.ml.veritas_fusion import VeritasFusionEngine
