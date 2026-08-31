@@ -51,8 +51,8 @@ class Settings(BaseSettings):
     ]
     
     # Database
-    DATABASE_URL: str = f"sqlite+aiosqlite:///{DATA_DIR / 'veritas.db'}"
-    SYNC_DATABASE_URL: str = f"sqlite:///{DATA_DIR / 'veritas.db'}"
+    DATABASE_URL: str = f"sqlite+aiosqlite:///{str(DATA_DIR / 'veritas.db').replace(chr(92), '/')}"
+    SYNC_DATABASE_URL: str = f"sqlite:///{str(DATA_DIR / 'veritas.db').replace(chr(92), '/')}"
     
     # Inference Modes: FAST | BALANCED | RESEARCH | CLOUD_ENHANCED
     DEFAULT_INFERENCE_MODE: str = "BALANCED"

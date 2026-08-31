@@ -11,7 +11,7 @@ try:
     HAS_SKLEARN = True
 except ImportError:
     HAS_SKLEARN = False
-    LogisticRegression = None
+    from backend.app.ml.baselines import LogisticRegression
     GradientBoostingClassifier = None
 from backend.app.core.logging_config import logger
 from backend.app.ml.calibration import ConfidenceCalibrator

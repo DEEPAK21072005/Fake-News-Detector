@@ -107,14 +107,18 @@ class ModelRegistry:
             })
         return results
 
-    def save_checkpoint(self, name: str, filepath: Optional[Path] = None) -> Path:
+    def save_checkpoint(self, name: str, filepath: Optional[Path] = None) -> Optional[Path]:
         if name not in self.models:
             raise ValueError(f"Model {name} not found.")
         if filepath is None:
             filepath = settings.CHECKPOINTS_PATH / f"{name.lower()}_checkpoint.joblib"
-        self.models[name].save(filepath)
-        logger.info(f"Saved checkpoint for {name} to {filepath}")
-        return filepath
+        try:
+            self.models[name].save(filepath)
+            logger.info(f"Saved checkpoint for {name} to {filepath}")
+            return filepath
+        except Exception as e:
+            logger.warning(f"Could not persist checkpoint for {name}: {e}")
+            return None
 
     def load_checkpoint(self, name: str, filepath: Path) -> None:
         if name not in self.models:

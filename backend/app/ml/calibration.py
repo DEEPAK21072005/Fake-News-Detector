@@ -6,7 +6,7 @@ try:
     HAS_SKLEARN = True
 except ImportError:
     HAS_SKLEARN = False
-    LogisticRegression = None
+    from backend.app.ml.baselines import LogisticRegression
     IsotonicRegression = None
 
 

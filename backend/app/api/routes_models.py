@@ -75,7 +75,11 @@ async def train_model_endpoint(payload: ModelTrainRequest):
     # Load training data with graceful fallback for serverless deployments
     data_path = settings.BASE_PATH / "fake_news_data.csv"
     starter_path = settings.DATA_PATH / "starter_training_corpus.json"
+    if not starter_path.exists():
+        starter_path = settings.BASE_PATH / "data" / "starter_training_corpus.json"
     demo_path = settings.DATA_PATH / "demo_samples.json"
+    if not demo_path.exists():
+        demo_path = settings.BASE_PATH / "data" / "demo_samples.json"
 
     texts: List[str] = []
     labels: List[int] = []
