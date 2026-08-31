@@ -4,15 +4,23 @@ from typing import List, Optional
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
-IS_VERCEL = bool(os.getenv("VERCEL")) or bool(os.getenv("NOW_REGION"))
+IS_VERCEL = (
+    bool(os.getenv("VERCEL"))
+    or bool(os.getenv("NOW_REGION"))
+    or bool(os.getenv("VERCEL_REGION"))
+    or bool(os.getenv("AWS_LAMBDA_FUNCTION_NAME"))
+    or bool(os.getenv("LAMBDA_TASK_ROOT"))
+)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
-if IS_VERCEL:
+# In serverless environments, writable directories must be in /tmp
+if IS_VERCEL or not os.access(str(BASE_DIR), os.W_OK):
     DATA_DIR = Path("/tmp/data")
     MODELS_DIR = Path("/tmp/models")
 else:
     DATA_DIR = BASE_DIR / "data"
     MODELS_DIR = BASE_DIR / "models"
+
 
 CHECKPOINTS_DIR = MODELS_DIR / "checkpoints"
 EVIDENCE_DIR = DATA_DIR / "evidence"

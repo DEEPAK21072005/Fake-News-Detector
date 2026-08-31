@@ -52,6 +52,12 @@ def get_sync_db():
 
 async def init_database():
     """Initialize database tables asynchronously."""
-    async with async_engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    logger.info("Database initialized successfully.")
+    try:
+        # Ensure database directory exists
+        db_path = settings.DATA_PATH / "veritas.db"
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+        async with async_engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        logger.info("Database initialized successfully.")
+    except Exception as e:
+        logger.warning(f"Database initialization deferred or fallback: {e}")
