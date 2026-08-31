@@ -2,7 +2,10 @@ from typing import List, Dict, Any
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, desc
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 
 from backend.app.core.config import settings
 from backend.app.database.database import get_db

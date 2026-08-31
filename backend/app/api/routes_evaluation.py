@@ -1,5 +1,8 @@
 from fastapi import APIRouter, HTTPException
-import pandas as pd
+try:
+    import pandas as pd
+except ImportError:
+    pd = None
 import numpy as np
 
 from backend.app.core.config import settings
